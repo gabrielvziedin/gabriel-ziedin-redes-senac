@@ -29,25 +29,55 @@
 
 '''
 
-# func
+def inspecao(medicoes):
+    validacoes = {"brix": "", "ph": "", "nivel": ""}
 
-###
+    if medicoes["brix"] < 10.5:
+        validacoes["brix"] = "baixo"
+    elif medicoes["brix"] > 11.2:
+        validacoes["brix"] = "alto"
+    else:
+        validacoes["brix"] = "ok"
 
-base = []
+    if medicoes["ph"] < 2.3:
+        validacoes["ph"] = "baixo"
+    elif medicoes["ph"] > 2.6:
+        validacoes["ph"] = "alto"
+    else:
+        validacoes["ph"] = "ok"
 
-###
+    if medicoes["nivel"] < 195:
+        validacoes["nivel"] = "baixo"
+    elif medicoes["nivel"] > 205:
+        validacoes["nivel"] = "alto"
+    else:
+        validacoes["nivel"] = "ok"
 
-lote = (int(input("Informe o lote: ")))
-linha_prod = (int(input("Informe a linha de produção: ")))
+    return validacoes
 
-bx = float(input("Informe o Brix (°Bx): "))
-ph = float(input("Informe o pH: "))
-nivel_ml = float(input("Informe o Nível (mL):"))
+relatorio = []
 
-###
+resp = 1
+while(resp == 1):
+    print("---")
 
-medicoes = {"bx": bx, "ph": ph, "nivel": nivel_ml}
-base.append({"lote": lote, "linha": linha_prod, "medicoes": medicoes})
+    lote = (int(input("Informe o lote: ")))
+    linha_prod = (int(input("Informe a linha de produção: ")))
 
-for i in base:
-    print(i)
+    brix = float(input("Informe o Brix (°Bx): "))
+    ph = float(input("Informe o pH: "))
+    nivel = float(input("Informe o Nível (mL):"))
+
+    medicoes = {"brix": brix, "ph": ph, "nivel": nivel}
+    validacoes = inspecao(medicoes)
+
+    relatorio.append({"lote": lote, "linha": linha_prod, "medicoes": medicoes, "validacoes": validacoes})
+
+    resp = int(input("---\n1. Adicionar novo lote\n2. Exibir relatório (encerrar programa)\n[1/2]?: "))
+
+for i in relatorio:
+    print("---")
+    print(f"Lote: {i['lote']}\nLinha: {i['linha']}\nMedições:")
+    print(f"Brix  = {i['medicoes']['brix']} °Bx ({i['validacoes']['brix']})")
+    print(f"pH    = {i['medicoes']['ph']} ({i['validacoes']['ph']})")
+    print(f"Nível = {i['medicoes']['nivel']} mL ({i['validacoes']['nivel']})")
